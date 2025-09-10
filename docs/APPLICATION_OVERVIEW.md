@@ -42,7 +42,7 @@
 
 ### Project Structure
 
-```
+\`\`\`
 ├── app/                          # Next.js 15 App Router
 │   ├── api/                      # API routes
 │   │   └── ai-generate/          # AI content generation endpoint
@@ -81,7 +81,7 @@
 ├── docs/                        # Documentation
 │   └── SCHEMA_DOCUMENTATION.md  # AI schema documentation
 └── public/                      # Static assets
-```
+\`\`\`
 
 ---
 
@@ -174,7 +174,7 @@
 
 ### 1. Static Data Layer
 
-```typescript
+\`\`\`typescript
 // Casino Data Structure
 interface Casino {
     id: string;
@@ -188,7 +188,7 @@ interface Casino {
     metrics: PerformanceMetrics;
     review: ExpertReview;
 }
-```
+\`\`\`
 
 **Key Data Files**:
 
@@ -199,9 +199,9 @@ interface Casino {
 
 ### 2. AI Generation Pipeline
 
-```
+\`\`\`
 User Trigger → Context Building → Prompt Generation → AI API Call → Validation → UI Rendering
-```
+\`\`\`
 
 **Context Building**:
 
@@ -232,7 +232,6 @@ User Trigger → Context Building → Prompt Generation → AI API Call → Vali
 **Purpose**: Generate AI-powered casino analysis content
 
 **Input**:
-
 ```typescript
 {
   pageContent: PageContent,    // Page context and metadata
@@ -242,7 +241,6 @@ User Trigger → Context Building → Prompt Generation → AI API Call → Vali
 ```
 
 **Output**:
-
 ```typescript
 {
   success: boolean,
@@ -304,12 +302,12 @@ The application uses sophisticated Zod schemas to ensure AI generates structured
 
 ```typescript
 const result = await generateObject({
-    model: openai('gpt-4o-2024-08-06'),
-    system: 'You are an expert iGaming analyst...',
-    prompt: masterPrompt,
-    schema: CriteriaSnapshotSchema,
-    temperature: 0.7,
-});
+  model: openai("gpt-4o-2024-08-06"),
+  system: "You are an expert iGaming analyst...",
+  prompt: masterPrompt,
+  schema: CriteriaSnapshotSchema,
+  temperature: 0.7,
+})
 ```
 
 **Model Parameters**:
@@ -350,7 +348,7 @@ const result = await generateObject({
 
 ### Local Development
 
-```bash
+\`\`\`bash
 # Install dependencies
 pnpm install
 
@@ -362,7 +360,7 @@ pnpm build
 
 # Start production server
 pnpm start
-```
+\`\`\`
 
 ### Code Organization
 
