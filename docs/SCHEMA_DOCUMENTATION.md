@@ -29,7 +29,7 @@ The primitive schemas follow a discriminated union pattern based on the `criteri
 
 #### Core Data Extraction
 
-```typescript
+\`\`\`typescript
 // Extract from casino object:
 casino.licenses[0].authority      → licensing.primaryLicense
 casino.licenses[0].licenseId      → licensing.licenseId
@@ -42,7 +42,7 @@ casino.trust.audits              → securityFeatures.audits
 casino.trust.rtpTransparency     → securityFeatures.rtpTransparency
 casino.trust.ownership           → securityFeatures.ownership
 casino.trust.rgTools             → securityFeatures.rgTools
-```
+\`\`\`
 
 #### Fallback Values
 
@@ -64,7 +64,7 @@ casino.trust.rgTools             → securityFeatures.rgTools
 
 #### Core Data Extraction
 
-```typescript
+\`\`\`typescript
 // Extract from casino object:
 casino.bonuses[0].value.matchPercent    → bonusValue.matchPercent
 casino.bonuses[0].value.maxAmount       → bonusValue.maxAmount
@@ -75,7 +75,7 @@ casino.bonuses[0].wagering.appliesTo    → wageringTerms.appliesTo
 casino.bonuses[0].wagering.maxBet       → wageringTerms.maxBet
 casino.bonuses[0].wagering.expiryDays   → wageringTerms.expiryDays
 casino.bonuses[0].bonusCode             → bonusCode (optional)
-```
+\`\`\`
 
 #### Fallback Values
 
@@ -95,7 +95,7 @@ casino.bonuses[0].bonusCode             → bonusCode (optional)
 
 #### Core Data Extraction
 
-```typescript
+\`\`\`typescript
 // Extract from casino object:
 casino.payments.payoutSpeedHours.min        → payoutSpeed.minHours
 casino.payments.payoutSpeedHours.max        → payoutSpeed.maxHours
@@ -106,7 +106,7 @@ casino.payments.minWithdrawal               → paymentMethods.minWithdrawal
 casino.payments.maxWithdrawalPerDay         → paymentMethods.maxWithdrawalPerDay
 casino.payments.fees.deposits               → fees.deposits
 casino.payments.fees.withdrawals            → fees.withdrawals
-```
+\`\`\`
 
 #### Fallback Values
 
@@ -125,7 +125,7 @@ casino.payments.fees.withdrawals            → fees.withdrawals
 
 #### Core Data Extraction
 
-```typescript
+\`\`\`typescript
 // Extract from casino object:
 casino.trust.established                    → establishmentData.established
 // Calculate months from current date       → establishmentData.monthsActive
@@ -134,7 +134,7 @@ casino.metrics.risingStarScore             → improvementMetrics.risingStarScor
 casino.trust.rating                        → improvementMetrics.trustRating
 casino.games.total (for growth estimate)   → improvementMetrics.gameGrowth
 casino.features (analyze for new features) → improvementMetrics.newFeatures
-```
+\`\`\`
 
 #### Fallback Values
 
@@ -154,7 +154,7 @@ casino.features (analyze for new features) → improvementMetrics.newFeatures
 
 #### Core Data Extraction
 
-```typescript
+\`\`\`typescript
 // Extract from casino object:
 casino.games.total                          → gameLibrary.totalGames
 casino.games.liveDealer                     → gameLibrary.liveDealerGames
@@ -165,7 +165,7 @@ casino.features (check for exclusives)      → providers.exclusiveContent
 casino.games.topTitles                      → gameQuality.topTitles
 // Check features/games for jackpots         → gameQuality.hasJackpots
 casino.features (check for tournaments)     → gameQuality.hasTournaments
-```
+\`\`\`
 
 #### Fallback Values
 
@@ -186,7 +186,7 @@ casino.features (check for tournaments)     → gameQuality.hasTournaments
 
 #### Core Data Extraction
 
-```typescript
+\`\`\`typescript
 // Extract from casino object:
 casino.payments.payoutSpeedHours.min        → withdrawalSpeed.minHours
 casino.payments.payoutSpeedHours.max        → withdrawalSpeed.maxHours
@@ -198,7 +198,7 @@ casino.features.cryptoAccepted             → fastMethods.cryptoOptions
 // Generate realistic description            → fastMethods.bankTransferSpeed
 casino.payments.minWithdrawal               → limits.minWithdrawal
 casino.payments.maxWithdrawalPerDay         → limits.maxDailyWithdrawal
-```
+\`\`\`
 
 #### Fallback Values
 
@@ -222,7 +222,7 @@ casino.payments.maxWithdrawalPerDay         → limits.maxDailyWithdrawal
 
 ### 2. Fallback Strategy
 
-```typescript
+\`\`\`typescript
 // Example: Safe property access with fallback
 const trustScore = casino.metrics?.trustScore ?? 85;
 const licenseId = casino.licenses?.[0]?.licenseId ?? 'LIC-2024-001';
@@ -230,7 +230,7 @@ const currencies =
     casino.payments?.currencies?.length > 0
         ? casino.payments.currencies
         : ['EUR'];
-```
+\`\`\`
 
 ### 3. Error Handling
 

@@ -38,7 +38,7 @@
 
 ### Project Structure
 
-```
+\`\`\`
 ├── app/                          # Next.js 15 App Router
 │   ├── api/                      # API routes
 │   │   └── ai-generate/          # AI content generation endpoint
@@ -77,7 +77,7 @@
 ├── docs/                        # Documentation
 │   └── SCHEMA_DOCUMENTATION.md  # AI schema documentation
 └── public/                      # Static assets
-```
+\`\`\`
 
 ---
 
@@ -161,7 +161,7 @@
 
 ### 1. Static Data Layer
 
-```typescript
+\`\`\`typescript
 // Casino Data Structure
 interface Casino {
   id: string
@@ -175,7 +175,7 @@ interface Casino {
   metrics: PerformanceMetrics
   review: ExpertReview
 }
-```
+\`\`\`
 
 **Key Data Files**:
 - `casinos.ts`: Complete casino database with 6 detailed entries
@@ -185,9 +185,9 @@ interface Casino {
 
 ### 2. AI Generation Pipeline
 
-```
+\`\`\`
 User Trigger → Context Building → Prompt Generation → AI API Call → Validation → UI Rendering
-```
+\`\`\`
 
 **Context Building**:
 - Page metadata (title, description, target criteria)
@@ -215,23 +215,23 @@ User Trigger → Context Building → Prompt Generation → AI API Call → Vali
 **Purpose**: Generate AI-powered casino analysis content
 
 **Input**:
-```typescript
+\`\`\`typescript
 {
   pageContent: PageContent,    // Page context and metadata
   casinos: Casino[],          // Casino data array
   criteria: string            // Analysis focus (e.g., "fast payout analysis")
 }
-```
+\`\`\`
 
 **Output**:
-```typescript
+\`\`\`typescript
 {
   success: boolean,
   data: CriteriaSnapshot,     // Structured AI-generated content
   tokensUsed: number,
   duration: number
 }
-```
+\`\`\`
 
 **Processing Steps**:
 1. Validate input parameters
@@ -278,7 +278,7 @@ The application uses sophisticated Zod schemas to ensure AI generates structured
 
 ### AI Model Configuration
 
-```typescript
+\`\`\`typescript
 const result = await generateObject({
   model: openai("gpt-4o-2024-08-06"),
   system: "You are an expert iGaming analyst...",
@@ -286,7 +286,7 @@ const result = await generateObject({
   schema: CriteriaSnapshotSchema,
   temperature: 0.7,
 })
-```
+\`\`\`
 
 **Model Parameters**:
 - **Model**: GPT-4o for advanced reasoning and structured output
@@ -325,7 +325,7 @@ const result = await generateObject({
 
 ### Local Development
 
-```bash
+\`\`\`bash
 # Install dependencies
 pnpm install
 
@@ -337,7 +337,7 @@ pnpm build
 
 # Start production server
 pnpm start
-```
+\`\`\`
 
 ### Code Organization
 
