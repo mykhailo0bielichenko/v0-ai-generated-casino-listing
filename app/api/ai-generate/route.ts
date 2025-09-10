@@ -90,6 +90,13 @@ CRITICAL SCHEMA REQUIREMENTS - MUST FOLLOW EXACTLY:
 4. eeat.jurisdictionFocus array is REQUIRED:
    - Example: ["NO"] for Norway, ["US"] for US, etc.
 
+CRITICAL CASINO SELECTION REQUIREMENT:
+5. EACH CASINO CAN ONLY WIN ONE CRITERION - NO DUPLICATES ALLOWED!
+   - Each winnerCasinoId MUST be unique across all 6 criteria cards
+   - If a casino is best for multiple criteria, choose the most appropriate one and select different casinos for other criteria
+   - Ensure maximum diversity: 6 criteria = 6 different casino winners
+   - Example: If Casino A wins "most_trusted", it cannot also win "best_bonus" - select Casino B for "best_bonus"
+
 Follow the schema exactly and ensure all required fields are populated with accurate, engaging content. If you are missing some information you can reference the provided context or make your own educated assumptions to keep the content coherent and valid output schema.`,
             prompt: prompt,
             schema: CriteriaSnapshotSchema,

@@ -325,7 +325,7 @@ export const CriteriaCardSchema = z
         FastPayoutContentSchema,
     ])
     .describe(
-        "Validated content payload for a single 'Top by Criteria' card. Use the matching schema for the selected winner."
+        "Validated content payload for a single 'Top by Criteria' card. Use the matching schema for the selected winner. IMPORTANT: Each winnerCasinoId must be unique - no casino can win multiple criteria in the same generation."
     );
 
 /** -------------------------------------------
@@ -343,7 +343,7 @@ export const CriteriaSnapshotSchema = z.object({
         .array(CriteriaCardSchema)
         .length(6)
         .describe(
-            'Exactly six cards—one for each criterion. Array must contain exactly 6 items representing: most_trusted, best_bonus, best_payout, rising_star, best_games, fast_payout.'
+            'Exactly six cards—one for each criterion. Array must contain exactly 6 items representing: most_trusted, best_bonus, best_payout, rising_star, best_games, fast_payout. CRITICAL: Each casino can only win ONE criterion - all winnerCasinoId values must be unique across the 6 cards to ensure maximum diversity of recommendations.'
         ),
 
     /** New: section header/description appearing above the grid */

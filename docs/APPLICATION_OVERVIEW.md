@@ -43,44 +43,44 @@
 ### Project Structure
 
 \`\`\`
-├── app/                          # Next.js 15 App Router
-│   ├── api/                      # API routes
-│   │   └── ai-generate/          # AI content generation endpoint
-│   ├── casinos/                  # Casino listing pages
-│   │   └── fast-payout/          # Fast payout casino page
-│   │       ├── page.tsx          # Main page component
-│   │       └── components/       # Page-specific components
-│   ├── reviews/                  # Individual casino reviews
-│   │   └── [slug]/               # Dynamic review pages
-│   ├── layout.tsx                # Root layout
-│   ├── page.tsx                  # Homepage
-│   └── globals.css              # Global styles
-├── components/                   # Shared UI components
-│   ├── ui/                      # Base UI components (Radix + custom)
-│   ├── navigation.tsx           # Site navigation
-│   ├── footer.tsx               # Site footer
-│   └── logo.tsx                 # Brand logo
-├── data/                        # Data layer
-│   ├── casinos.ts               # Casino data structures and mock data
-│   ├── authors.ts               # Author profiles
-│   ├── geos.ts                  # Geographic/regulatory data
-│   └── languages.ts             # Language configurations
-├── types/                       # TypeScript type definitions
-│   ├── criteria-content-schemas.primitives.ts  # AI schema primitives
-│   ├── criteria-content-schemas-full.ts        # Complete AI schemas
-│   ├── criteria-content-schemas.ts             # Schema exports
-│   ├── seo-content.ts           # SEO content types
-│   └── types.ts                 # Core application types
-├── lib/                         # Utility libraries
-│   ├── utils.ts                 # Shared utilities
-│   └── ai-generation/           # AI generation logic
-│       ├── ai-service.ts        # AI service wrapper
-│       └── master-prompt.ts     # Prompt generation
-├── hooks/                       # React hooks
-│   └── use-ai-generation.ts     # AI generation state management
-├── docs/                        # Documentation
-│   └── SCHEMA_DOCUMENTATION.md  # AI schema documentation
-└── public/                      # Static assets
+├── app/ # Next.js 15 App Router
+│ ├── api/ # API routes
+│ │ └── ai-generate/ # AI content generation endpoint
+│ ├── casinos/ # Casino listing pages
+│ │ └── fast-payout/ # Fast payout casino page
+│ │ ├── page.tsx # Main page component
+│ │ └── components/ # Page-specific components
+│ ├── reviews/ # Individual casino reviews
+│ │ └── [slug]/ # Dynamic review pages
+│ ├── layout.tsx # Root layout
+│ ├── page.tsx # Homepage
+│ └── globals.css # Global styles
+├── components/ # Shared UI components
+│ ├── ui/ # Base UI components (Radix + custom)
+│ ├── navigation.tsx # Site navigation
+│ ├── footer.tsx # Site footer
+│ └── logo.tsx # Brand logo
+├── data/ # Data layer
+│ ├── casinos.ts # Casino data structures and mock data
+│ ├── authors.ts # Author profiles
+│ ├── geos.ts # Geographic/regulatory data
+│ └── languages.ts # Language configurations
+├── types/ # TypeScript type definitions
+│ ├── criteria-content-schemas.primitives.ts # AI schema primitives
+│ ├── criteria-content-schemas-full.ts # Complete AI schemas
+│ ├── criteria-content-schemas.ts # Schema exports
+│ ├── seo-content.ts # SEO content types
+│ └── types.ts # Core application types
+├── lib/ # Utility libraries
+│ ├── utils.ts # Shared utilities
+│ └── ai-generation/ # AI generation logic
+│ ├── ai-service.ts # AI service wrapper
+│ └── master-prompt.ts # Prompt generation
+├── hooks/ # React hooks
+│ └── use-ai-generation.ts # AI generation state management
+├── docs/ # Documentation
+│ └── SCHEMA_DOCUMENTATION.md # AI schema documentation
+└── public/ # Static assets
 \`\`\`
 
 ---
@@ -177,16 +177,16 @@
 \`\`\`typescript
 // Casino Data Structure
 interface Casino {
-    id: string;
-    rank: number;
-    brand: string;
-    licensing: License[];
-    trust: TrustMetrics;
-    bonuses: Bonus[];
-    payments: PaymentInfo;
-    games: GameLibrary;
-    metrics: PerformanceMetrics;
-    review: ExpertReview;
+id: string;
+rank: number;
+brand: string;
+licensing: License[];
+trust: TrustMetrics;
+bonuses: Bonus[];
+payments: PaymentInfo;
+games: GameLibrary;
+metrics: PerformanceMetrics;
+review: ExpertReview;
 }
 \`\`\`
 
@@ -232,6 +232,7 @@ User Trigger → Context Building → Prompt Generation → AI API Call → Vali
 **Purpose**: Generate AI-powered casino analysis content
 
 **Input**:
+
 ```typescript
 {
   pageContent: PageContent,    // Page context and metadata
@@ -241,6 +242,7 @@ User Trigger → Context Building → Prompt Generation → AI API Call → Vali
 ```
 
 **Output**:
+
 ```typescript
 {
   success: boolean,
@@ -302,12 +304,12 @@ The application uses sophisticated Zod schemas to ensure AI generates structured
 
 ```typescript
 const result = await generateObject({
-  model: openai("gpt-4o-2024-08-06"),
-  system: "You are an expert iGaming analyst...",
-  prompt: masterPrompt,
-  schema: CriteriaSnapshotSchema,
-  temperature: 0.7,
-})
+    model: openai('gpt-4o-2024-08-06'),
+    system: 'You are an expert iGaming analyst...',
+    prompt: masterPrompt,
+    schema: CriteriaSnapshotSchema,
+    temperature: 0.7,
+});
 ```
 
 **Model Parameters**:
@@ -349,16 +351,21 @@ const result = await generateObject({
 ### Local Development
 
 \`\`\`bash
+
 # Install dependencies
+
 pnpm install
 
 # Start development server
+
 pnpm dev
 
 # Build for production
+
 pnpm build
 
 # Start production server
+
 pnpm start
 \`\`\`
 
