@@ -1,19 +1,19 @@
-import type { Casino } from "../../data/casinos"
-import type { PageContent, Author, Language, Geo } from "../../types/types"
+import type { Casino } from '../../data/casinos';
+import type { PageContent, Author, Language, Geo } from '../../types/types';
 
 export interface MasterPromptContext {
-  pageContent: PageContent
-  casinos: Casino[]
-  author: Author
-  language: Language
-  geo: Geo
-  criteria: string
+    pageContent: PageContent;
+    casinos: Casino[];
+    author: Author;
+    language: Language;
+    geo: Geo;
+    criteria: string;
 }
 
 export function generateMasterPrompt(context: MasterPromptContext): string {
-  const { pageContent, casinos, author, language, geo, criteria } = context
+    const { pageContent, casinos, author, language, geo, criteria } = context;
 
-  return `# iGaming Affiliate Content Generation Task
+    return `# iGaming Affiliate Content Generation Task
 
 ## Context Overview
 You are an expert iGaming content analyst generating structured content for an affiliate website. Your task is to analyze the provided casino data and create a comprehensive "Top Casinos by Ranking Criteria" section.
@@ -30,17 +30,21 @@ You are an expert iGaming content analyst generating structured content for an a
 ## Author Information
 - **Name**: ${author.name}
 - **Role**: ${author.role}
-- **Experience**: ${author.experience}
-- **Specialties**: ${author.specialties.join(", ")}
+- **Experience**: ${author.experience || 'Experienced iGaming professional'}
+- **Specialties**: ${
+        author.specialties?.join(', ') || 'Casino analysis and review'
+    }
 - **Bio**: ${author.bio}
 
 ## Regulatory Context
 - **Jurisdiction**: ${geo.country}
-- **Regulations**: ${geo.regulations.join(", ")}
+- **Regulations**: ${geo.regulations?.join(', ') || 'Local gaming regulations'}
 - **Compliance Requirements**: Must adhere to ${geo.country} gaming regulations
 
 ## Casino Data Analysis
-You have access to ${casinos.length} casinos with the following data points for each:
+You have access to ${
+        casinos.length
+    } casinos with the following data points for each:
 - Trust metrics (rating, audits, licensing, complaint rates)
 - Bonus information (types, wagering, terms)
 - Payment data (methods, speeds, limits, fees)
@@ -50,19 +54,21 @@ You have access to ${casinos.length} casinos with the following data points for 
 
 ### Top ${Math.min(6, casinos.length)} Casinos (Current Ranking):
 ${casinos
-  .slice(0, 6)
-  .map(
-    (casino, index) => `
+    .slice(0, 6)
+    .map(
+        (casino, index) => `
 ${index + 1}. **${casino.brand}** (ID: ${casino.id})
-   - Trust Score: ${casino.metrics.trustScore}/100
-   - Payout Speed: ${casino.payments.payoutSpeedHours.min}-${casino.payments.payoutSpeedHours.max}h
-   - License: ${casino.licenses[0]?.authority}
-   - Bonus Score: ${casino.metrics.bonusScore}/100
-   - Game Selection: ${casino.games.total} games
-   - Rising Star Score: ${casino.metrics.risingStarScore}/100
-`,
-  )
-  .join("")}
+   - Trust Score: ${casino.metrics?.trustScore || 'N/A'}/100
+   - Payout Speed: ${casino.payments?.payoutSpeedHours?.min || 'N/A'}-${
+            casino.payments?.payoutSpeedHours?.max || 'N/A'
+        }h
+   - License: ${casino.licenses?.[0]?.authority || 'Licensed'}
+   - Bonus Score: ${casino.metrics?.bonusScore || 'N/A'}/100
+   - Game Selection: ${casino.games?.total || 'N/A'} games
+   - Rising Star Score: ${casino.metrics?.risingStarScore || 'N/A'}/100
+`
+    )
+    .join('')}
 
 ## Task Requirements
 
@@ -97,9 +103,15 @@ Return a structured JSON object following the CriteriaSnapshot schema with:
 - Exactly 6 criteria cards with winners and justifications
 - Change log explaining the selection process
 
-Generate the analysis now based on this context and the current casino rankings.`
+## CRITICAL Schema Requirements:
+- EVERY keyStats array MUST contain 2-4 elements (never just 1)
+- methodologyUpdatedAt MUST be full ISO datetime (e.g., "2023-09-15T10:00:00Z")
+- eeat.trustSignals object is REQUIRED with auditBadges array
+- eeat.jurisdictionFocus array is REQUIRED with country codes
+
+Generate the analysis now based on this context and the current casino rankings.`;
 }
 
 export function generateContextSummary(context: MasterPromptContext): string {
-  return `Page: ${context.pageContent.title} | Author: ${context.author.name} | Geo: ${context.geo.country} | Casinos: ${context.casinos.length} | Criteria: ${context.criteria}`
+    return `Page: ${context.pageContent.title} | Author: ${context.author.name} | Geo: ${context.geo.country} | Casinos: ${context.casinos.length} | Criteria: ${context.criteria}`;
 }
