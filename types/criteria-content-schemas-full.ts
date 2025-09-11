@@ -308,7 +308,7 @@ export const ChangeLogSchema = z.object({
     diffSummary: z
         .string()
         .min(8)
-        .max(240)
+        .max(540)
         .describe(
             "Brief summary of what changed (8-240 chars). Examples: 'Selected winners for six criteria based on current data analysis', 'Updated trust scores based on recent audits', 'Reordered rankings due to new complaint data'. Describe the actual changes made."
         ),

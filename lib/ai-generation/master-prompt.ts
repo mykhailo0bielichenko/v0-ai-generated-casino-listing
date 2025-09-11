@@ -52,20 +52,113 @@ You have access to ${
 - Support quality (availability, languages, channels)
 - Features (mobile apps, crypto support, sportsbook)
 
-### Top ${Math.min(6, casinos.length)} Casinos (Current Ranking):
+### Top ${Math.min(6, casinos.length)} Casinos (Complete Data):
 ${casinos
     .slice(0, 6)
     .map(
         (casino, index) => `
-${index + 1}. **${casino.brand}** (ID: ${casino.id})
-   - Trust Score: ${casino.metrics?.trustScore || 'N/A'}/100
+${index + 1}. **${casino.brand}** (ID: ${casino.id}, Rank: ${casino.rank})
+   **Basic Info:**
+   - Slug: ${casino.slug}
+   - Established: ${casino.trust?.established || 'N/A'}
+   - Ownership: ${casino.trust?.ownership || 'N/A'}
+   
+   **Geographic Access:**
+   - Allowed Countries: ${casino.geo?.allowedCountries?.join(', ') || 'N/A'}
+   - Restricted Countries: ${
+       casino.geo?.restrictedCountries?.join(', ') || 'N/A'
+   }
+   
+   **Licensing & Trust:**
+   - Licenses: ${
+       casino.licenses
+           ?.map((l) => `${l.authority} (${l.licenseId})`)
+           .join(', ') || 'N/A'
+   }
+   - Trust Rating: ${casino.trust?.rating || 'N/A'}/5
+   - Audits: ${
+       casino.trust?.audits
+           ?.map((a) => `${a.provider} (${a.lastAudit})`)
+           .join(', ') || 'N/A'
+   }
+   - Complaint Rate (90d): ${casino.trust?.complaintRate90d || 'N/A'}%
+   - RTP Transparency: ${casino.trust?.rtpTransparency || 'N/A'}
+   - RG Tools: ${casino.trust?.rgTools?.join(', ') || 'N/A'}
+   
+   **Bonuses:**
+   ${
+       casino.bonuses
+           ?.map(
+               (bonus) =>
+                   `   - ${bonus.title}: ${bonus.type} | Wagering: ${bonus.wagering?.x}x | Min Deposit: ${bonus.minDeposit} | Verified: ${bonus.verifiedOn}`
+           )
+           .join('\n') || '   - No bonus data'
+   }
+   
+   **Payments:**
+   - Deposit Methods: ${casino.payments?.depositMethods?.join(', ') || 'N/A'}
+   - Withdrawal Methods: ${
+       casino.payments?.withdrawalMethods?.join(', ') || 'N/A'
+   }
+   - Min/Max Withdrawal: ${casino.payments?.minWithdrawal || 'N/A'}/${
+            casino.payments?.maxWithdrawalPerDay || 'N/A'
+        }
    - Payout Speed: ${casino.payments?.payoutSpeedHours?.min || 'N/A'}-${
             casino.payments?.payoutSpeedHours?.max || 'N/A'
         }h
-   - License: ${casino.licenses?.[0]?.authority || 'Licensed'}
+   - Instant Payouts: ${casino.payments?.supportsInstant ? 'Yes' : 'No'}
+   - Fees: Deposits ${casino.payments?.fees?.deposits || 'N/A'}, Withdrawals ${
+            casino.payments?.fees?.withdrawals || 'N/A'
+        }
+   - Currencies: ${casino.payments?.currencies?.join(', ') || 'N/A'}
+   
+   **Games:**
+   - Total Games: ${casino.games?.total || 'N/A'}
+   - Live Dealer: ${casino.games?.liveDealer || 'N/A'}
+   - Providers: ${casino.games?.providers?.join(', ') || 'N/A'}
+   - Top Titles: ${casino.games?.topTitles?.join(', ') || 'N/A'}
+   
+   **Support:**
+   - Live Chat: ${casino.support?.liveChat || 'N/A'}
+   - Email: ${casino.support?.email || 'N/A'}
+   - Phone: ${casino.support?.phone || 'N/A'}
+   - Languages: ${casino.support?.languages?.join(', ') || 'N/A'}
+   
+   **Features:**
+   - Sportsbook: ${casino.features?.hasSportsbook ? 'Yes' : 'No'}
+   - Casino: ${casino.features?.hasCasino ? 'Yes' : 'No'}
+   - Live Casino: ${casino.features?.hasLiveCasino ? 'Yes' : 'No'}
+   - Crypto: ${casino.features?.cryptoAccepted ? 'Yes' : 'No'}
+   - Mobile Apps: ${casino.features?.mobileApps?.join(', ') || 'None'}
+   
+   **Performance Metrics:**
+   - Trust Score: ${casino.metrics?.trustScore || 'N/A'}/100
    - Bonus Score: ${casino.metrics?.bonusScore || 'N/A'}/100
-   - Game Selection: ${casino.games?.total || 'N/A'} games
+   - Payout Speed Score: ${casino.metrics?.payoutSpeedScore || 'N/A'}/100
+   - Game Selection Score: ${casino.metrics?.gameSelectionScore || 'N/A'}/100
    - Rising Star Score: ${casino.metrics?.risingStarScore || 'N/A'}/100
+   
+   **Review Summary:**
+   - Overall Rating: ${casino.review?.overallRating || 'N/A'}/10
+   - Summary: ${casino.review?.summary || 'N/A'}
+   - Pros: ${casino.review?.pros?.join(', ') || 'N/A'}
+   - Cons: ${casino.review?.cons?.join(', ') || 'N/A'}
+   - Verdict: ${casino.review?.verdict || 'N/A'}
+   - Last Updated: ${casino.review?.lastUpdated || 'N/A'}
+   
+   **Key Facts:**
+   ${
+       casino.facts
+           ?.map(
+               (fact) =>
+                   `   - ${fact.key}: ${fact.value}${
+                       fact.unit ? ` ${fact.unit}` : ''
+                   }${fact.period ? ` (${fact.period})` : ''} | Verified: ${
+                       fact.verifiedOn
+                   }`
+           )
+           .join('\n') || '   - No facts data'
+   }
 `
     )
     .join('')}
@@ -86,6 +179,7 @@ Generate a structured analysis that selects winners for exactly 6 criteria:
 - Ensure each winner is justified with specific data points
 - Consider the target geography (${geo.country}) regulations and preferences
 - Factor in the page focus on "${criteria}" when relevant
+- **CRITICAL: Each casino can only win ONE criterion - ensure all 6 winnerCasinoId values are unique**
 
 ## Content Guidelines
 - Write in ${language.name} if not English

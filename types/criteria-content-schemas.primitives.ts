@@ -219,7 +219,7 @@ export const BestBonusContentSchema = z.object({
     bonusHighlights: z
         .array(z.string().min(5).max(80))
         .min(2)
-        .max(4)
+        .max(10)
         .describe(
             'Key bonus features from casino data: match percentage, max amount, wagering requirements'
         ),
@@ -311,7 +311,7 @@ export const BestPayoutContentSchema = z.object({
     proofText: z
         .string()
         .min(40)
-        .max(200)
+        .max(500)
         .describe('Evidence-based explanation of payout superiority'),
     payoutHighlights: z
         .array(z.string().min(5).max(80))

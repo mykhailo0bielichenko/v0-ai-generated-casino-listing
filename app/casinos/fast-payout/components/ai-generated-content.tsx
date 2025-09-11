@@ -281,7 +281,7 @@ export function AIGeneratedContent({
                                                 </p>
                                                 <ul className='text-xs text-muted-foreground space-y-1'>
                                                     {item.bonusHighlights
-                                                        .slice(0, 2)
+                                                        .slice(0, 5)
                                                         .map(
                                                             (
                                                                 highlight,
