@@ -1,6 +1,6 @@
 'use client';
 
-import { Clock, Star, TrendingUp, Shield, Gamepad2, Zap } from 'lucide-react';
+import { Clock, Star, TrendingUp, Shield, Gamepad2, Zap, ExternalLink, Award, ChevronDown, ChevronUp } from 'lucide-react';
 import {
     Card,
     CardContent,
@@ -9,8 +9,18 @@ import {
 } from '../../../../components/ui/card';
 import { Badge } from '../../../../components/ui/badge';
 import { Button } from '../../../../components/ui/button';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../../../../components/ui/collapsible';
 import type { CriteriaSnapshot } from '../../../../types/criteria-content-schemas-full';
 import type { Casino } from '../../../../data/casinos';
+
+// Utility function to format dates
+const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+};
 
 interface AIGeneratedContentProps {
     data: CriteriaSnapshot;
@@ -221,6 +231,33 @@ export function AIGeneratedContent({
                                                 </div>
                                             </div>
 
+                                            {/* Trust Metrics */}
+                                            {'trustMetrics' in item && (
+                                                <div className='bg-muted/20 rounded p-2'>
+                                                    <p className='text-xs font-medium text-card-foreground mb-1'>
+                                                        Trust Metrics:
+                                                    </p>
+                                                    <div className='grid grid-cols-2 gap-2'>
+                                                        <div>
+                                                            <p className='text-xs text-muted-foreground'>
+                                                                Score: {item.trustMetrics.trustScore}/100
+                                                            </p>
+                                                            <p className='text-xs text-muted-foreground'>
+                                                                Rating: {item.trustMetrics.trustRating}/5 ⭐
+                                                            </p>
+                                                        </div>
+                                                        <div>
+                                                            <p className='text-xs text-muted-foreground'>
+                                                                Est: {new Date(item.trustMetrics.established).getFullYear()}
+                                                            </p>
+                                                            <p className='text-xs text-muted-foreground'>
+                                                                Complaints: {item.trustMetrics.complaintRate}%
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
+
                                             {'licensing' in item && (
                                                 <div className='bg-muted/20 rounded p-2'>
                                                     <p className='text-xs font-medium text-card-foreground mb-1'>
@@ -237,6 +274,11 @@ export function AIGeneratedContent({
                                                                 .licenseId
                                                         }
                                                     </p>
+                                                    {item.licensing.issuedDate && (
+                                                        <p className='text-xs text-muted-foreground'>
+                                                            Issued: {new Date(item.licensing.issuedDate).toLocaleDateString()}
+                                                        </p>
+                                                    )}
                                                     {item.licensing
                                                         .additionalLicenses
                                                         .length > 0 && (
@@ -267,6 +309,16 @@ export function AIGeneratedContent({
                                                         }{' '}
                                                         RTP
                                                     </p>
+                                                    {item.securityFeatures.ownership && (
+                                                        <p className='text-xs text-muted-foreground mt-1'>
+                                                            Owner: {item.securityFeatures.ownership}
+                                                        </p>
+                                                    )}
+                                                    {item.securityFeatures.rgTools.length > 0 && (
+                                                        <p className='text-xs text-muted-foreground mt-1'>
+                                                            RG Tools: {item.securityFeatures.rgTools.slice(0, 2).join(', ')}
+                                                        </p>
+                                                    )}
                                                 </div>
                                             )}
                                         </div>
@@ -326,6 +378,14 @@ export function AIGeneratedContent({
                                                             .spins &&
                                                             ` + ${item.bonusValue.spins} spins`}
                                                     </p>
+                                                    {/* Bonus Code */}
+                                                    {'bonusCode' in item && item.bonusCode && (
+                                                        <div className='mt-2 p-1 bg-accent/10 rounded border border-accent/20'>
+                                                            <p className='text-xs font-medium text-accent'>
+                                                                Code: {item.bonusCode}
+                                                            </p>
+                                                        </div>
+                                                    )}
                                                 </div>
                                             )}
 
@@ -420,7 +480,7 @@ export function AIGeneratedContent({
                                                     <p className='text-xs font-medium text-card-foreground mb-1'>
                                                         Payment Options:
                                                     </p>
-                                                    <p className='text-xs text-muted-foreground'>
+                                                    <p className='text-xs text-muted-foreground mb-1'>
                                                         {item.paymentMethods.withdrawalMethods
                                                             .slice(0, 3)
                                                             .join(', ')}
@@ -433,6 +493,24 @@ export function AIGeneratedContent({
                                                                     .withdrawalMethods
                                                                     .length - 3
                                                             } more`}
+                                                    </p>
+                                                    {/* Withdrawal Limits */}
+                                                    <p className='text-xs text-muted-foreground'>
+                                                        Min: {item.paymentMethods.minWithdrawal} • 
+                                                        Max/day: {item.paymentMethods.maxWithdrawalPerDay}
+                                                    </p>
+                                                </div>
+                                            )}
+
+                                            {/* Fees Information */}
+                                            {'fees' in item && (
+                                                <div className='bg-muted/20 rounded p-2'>
+                                                    <p className='text-xs font-medium text-card-foreground mb-1'>
+                                                        Fees:
+                                                    </p>
+                                                    <p className='text-xs text-muted-foreground'>
+                                                        Deposits: {item.fees.deposits} • 
+                                                        Withdrawals: {item.fees.withdrawals}
                                                     </p>
                                                 </div>
                                             )}
@@ -502,6 +580,11 @@ export function AIGeneratedContent({
                                                                     .recentUpdates[0]
                                                             }
                                                         </p>
+                                                        {item.momentum.quarterlyGrowth && (
+                                                            <p className='text-xs text-muted-foreground mt-1 font-medium text-accent'>
+                                                                📈 {item.momentum.quarterlyGrowth}
+                                                            </p>
+                                                        )}
                                                     </div>
                                                 )}
                                         </div>
@@ -571,6 +654,32 @@ export function AIGeneratedContent({
                                                             .exclusiveContent &&
                                                             ' • Exclusive titles'}
                                                     </p>
+                                                </div>
+                                            )}
+
+                                            {/* Game Quality Indicators */}
+                                            {'gameQuality' in item && (
+                                                <div className='bg-muted/20 rounded p-2'>
+                                                    <p className='text-xs font-medium text-card-foreground mb-1'>
+                                                        Quality Features:
+                                                    </p>
+                                                    <div className='space-y-1'>
+                                                        {item.gameQuality.topTitles.length > 0 && (
+                                                            <p className='text-xs text-muted-foreground'>
+                                                                Featured: {item.gameQuality.topTitles.slice(0, 2).join(', ')}
+                                                            </p>
+                                                        )}
+                                                        {item.gameQuality.hasJackpots && (
+                                                            <p className='text-xs text-muted-foreground'>
+                                                                🎰 Progressive Jackpots
+                                                            </p>
+                                                        )}
+                                                        {item.gameQuality.hasTournaments && (
+                                                            <p className='text-xs text-muted-foreground'>
+                                                                🏆 Tournaments Available
+                                                            </p>
+                                                        )}
+                                                    </div>
                                                 </div>
                                             )}
                                         </div>
@@ -661,6 +770,21 @@ export function AIGeneratedContent({
                                                     </p>
                                                 </div>
                                             )}
+
+                                            {/* Withdrawal Limits */}
+                                            {'limits' in item && (
+                                                <div className='bg-muted/20 rounded p-2'>
+                                                    <p className='text-xs font-medium text-card-foreground mb-1'>
+                                                        Withdrawal Limits:
+                                                    </p>
+                                                    <p className='text-xs text-muted-foreground'>
+                                                        Min: {item.limits.minWithdrawal} • 
+                                                        Daily: {item.limits.maxDailyWithdrawal}
+                                                        {item.limits.monthlyLimit && 
+                                                            ` • Monthly: ${item.limits.monthlyLimit}`}
+                                                    </p>
+                                                </div>
+                                            )}
                                         </div>
                                     )}
 
@@ -702,28 +826,298 @@ export function AIGeneratedContent({
 
             {/* Author Attribution */}
             <div className='bg-muted/30 rounded-lg p-6'>
-                <div className='flex items-center gap-4'>
-                    <div className='w-12 h-12 bg-primary rounded-full flex items-center justify-center'>
-                        <span className='text-sm font-semibold text-white'>
-                            {data.authoring.author.name
-                                .split(' ')
-                                .map((n) => n[0])
-                                .join('')}
-                        </span>
-                    </div>
-                    <div>
-                        <p className='font-medium text-card-foreground'>
-                            {data.authoring.author.name}
-                        </p>
+                <div className='flex items-center gap-4 mb-4'>
+                    {data.authoring.author.image ? (
+                        <img
+                            src={data.authoring.author.image.url}
+                            alt={data.authoring.author.image.alt}
+                            className='w-12 h-12 rounded-full object-cover'
+                        />
+                    ) : (
+                        <div className='w-12 h-12 bg-primary rounded-full flex items-center justify-center'>
+                            <span className='text-sm font-semibold text-white'>
+                                {data.authoring.author.name
+                                    .split(' ')
+                                    .map((n) => n[0])
+                                    .join('')}
+                            </span>
+                        </div>
+                    )}
+                    <div className='flex-1'>
+                        <div className='flex items-center gap-2 mb-1'>
+                            <p className='font-medium text-card-foreground'>
+                                {data.authoring.author.name}
+                            </p>
+                            <div className='flex gap-1'>
+                                {data.authoring.author.credentials.slice(0, 2).map((credential, index) => (
+                                    <Badge key={index} variant="outline" className='text-xs'>
+                                        {credential}
+                                    </Badge>
+                                ))}
+                            </div>
+                        </div>
                         <p className='text-sm text-muted-foreground'>
                             {data.authoring.author.role}
                         </p>
                         <p className='text-xs text-muted-foreground mt-1'>
                             {data.authoring.author.bioLine}
                         </p>
+                        <Button asChild variant="ghost" size="sm" className='mt-2 h-auto p-0 text-xs text-primary hover:text-primary/80'>
+                            <a href={data.authoring.author.profileUrl} target="_blank" rel="noopener noreferrer">
+                                View Profile →
+                            </a>
+                        </Button>
+                    </div>
+                </div>
+
+                {/* Organization Info */}
+                <div className='border-t border-border pt-4'>
+                    <div className='flex items-center gap-3'>
+                        {data.authoring.organization.logo ? (
+                            <img
+                                src={data.authoring.organization.logo.url}
+                                alt={data.authoring.organization.logo.alt}
+                                className='w-8 h-8 object-contain'
+                            />
+                        ) : (
+                            <div className='w-8 h-8 bg-muted rounded flex items-center justify-center'>
+                                <span className='text-xs font-medium'>
+                                    {data.authoring.organization.name.charAt(0)}
+                                </span>
+                            </div>
+                        )}
+                        <div>
+                            <p className='text-sm font-medium text-card-foreground'>
+                                Published by {data.authoring.organization.name}
+                            </p>
+                            <Button asChild variant="ghost" size="sm" className='h-auto p-0 text-xs text-muted-foreground hover:text-foreground'>
+                                <a href={data.authoring.organization.url} target="_blank" rel="noopener noreferrer">
+                                    Visit Website →
+                                </a>
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Co-authors if any */}
+                {data.authoring.coAuthors && data.authoring.coAuthors.length > 0 && (
+                    <div className='border-t border-border pt-4 mt-4'>
+                        <p className='text-xs font-medium text-card-foreground mb-2'>Co-authors:</p>
+                        <div className='flex flex-wrap gap-2'>
+                            {data.authoring.coAuthors.map((coAuthor, index) => (
+                                <div key={index} className='flex items-center gap-2 bg-muted/50 rounded px-2 py-1'>
+                                    <span className='text-xs text-muted-foreground'>
+                                        {coAuthor.name} • {coAuthor.role}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            {/* E-E-A-T Metadata */}
+            <div className='bg-card border border-border rounded-lg p-6'>
+                <h3 className='text-lg font-semibold text-card-foreground mb-4'>
+                    Methodology & Transparency
+                </h3>
+
+                {/* Methodology Info */}
+                <div className='space-y-4'>
+                    <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                        <div className='bg-muted/30 rounded p-3'>
+                            <p className='text-xs font-medium text-card-foreground mb-1'>
+                                Methodology Version
+                            </p>
+                            <p className='text-sm text-muted-foreground'>
+                                v{data.eeat.methodology.methodologyVersion}
+                            </p>
+                            <p className='text-xs text-muted-foreground mt-1'>
+                                Updated: {formatDate(data.eeat.methodology.methodologyUpdatedAt)}
+                            </p>
+                        </div>
+
+                        <div className='bg-muted/30 rounded p-3'>
+                            <p className='text-xs font-medium text-card-foreground mb-1'>
+                                Data Coverage
+                            </p>
+                            <p className='text-sm text-muted-foreground'>
+                                {data.eeat.dataProvenance.coveragePeriod}
+                            </p>
+                            <p className='text-xs text-muted-foreground mt-1'>
+                                Sample size: {data.eeat.dataProvenance.sampleSize.toLocaleString()} observations
+                            </p>
+                            <p className='text-xs text-muted-foreground mt-1'>
+                                Data cutoff: {new Date(data.eeat.dataProvenance.dataCutoffDate).toLocaleDateString()}
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Trust Signals */}
+                    <div className='space-y-3'>
+                        <p className='text-sm font-medium text-card-foreground'>Trust Signals</p>
+                        <div className='flex flex-wrap gap-2'>
+                            {data.eeat.trustSignals.auditBadges.map((badge, index) => (
+                                <Badge key={index} className='bg-green-100 text-green-800 border-green-200'>
+                                    <Shield className='w-3 h-3 mr-1' />
+                                    {badge}
+                                </Badge>
+                            ))}
+                            {data.eeat.trustSignals.adrProvider && (
+                                <Badge className='bg-blue-100 text-blue-800 border-blue-200'>
+                                    Dispute Resolution: {data.eeat.trustSignals.adrProvider}
+                                </Badge>
+                            )}
+                            {data.eeat.trustSignals.complaintsWindowDays && (
+                                <Badge variant="outline" className='text-xs'>
+                                    {data.eeat.trustSignals.complaintsWindowDays}-day complaint tracking
+                                </Badge>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Source Types */}
+                    <div className='space-y-3'>
+                        <p className='text-sm font-medium text-card-foreground'>Data Sources</p>
+                        <div className='flex flex-wrap gap-2'>
+                            {data.eeat.dataProvenance.sourceTypes.map((sourceType, index) => (
+                                <Badge key={index} variant="outline" className='text-xs'>
+                                    {sourceType.replace('_', ' ').toUpperCase()}
+                                </Badge>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Jurisdiction Focus */}
+                    <div className='space-y-3'>
+                        <p className='text-sm font-medium text-card-foreground'>Geographic Focus</p>
+                        <div className='flex flex-wrap gap-2'>
+                            {data.eeat.jurisdictionFocus.map((country, index) => (
+                                <Badge key={index} variant="outline" className='text-xs'>
+                                    {country}
+                                </Badge>
+                            ))}
+                        </div>
+                        {data.eeat.locale && data.eeat.locale !== 'en' && (
+                            <p className='text-xs text-muted-foreground'>
+                                Content localized for: {data.eeat.locale.toUpperCase()}
+                            </p>
+                        )}
+                    </div>
+
+                    {/* Conflict of Interest Disclosure */}
+                    <div className='bg-amber-50 border border-amber-200 rounded p-3'>
+                        <p className='text-xs font-medium text-amber-800 mb-1'>
+                            Transparency Disclosure
+                        </p>
+                        <p className='text-xs text-amber-700'>
+                            {data.eeat.methodology.conflictOfInterest}
+                        </p>
+                    </div>
+
+                    {/* Review Process */}
+                    <div className='space-y-3'>
+                        <p className='text-sm font-medium text-card-foreground'>Editorial Process</p>
+                        <div className='bg-muted/30 rounded p-3'>
+                            <p className='text-xs text-muted-foreground'>
+                                {data.eeat.reviewProcess.processSummary}
+                            </p>
+                            {data.eeat.reviewProcess.reviewedAt && (
+                                <p className='text-xs text-muted-foreground mt-2'>
+                                    Last reviewed: {formatDate(data.eeat.reviewProcess.reviewedAt)}
+                                </p>
+                            )}
+                        </div>
+
+                        {/* Independent Reviewer */}
+                        {data.eeat.reviewedBy && (
+                            <div className='bg-muted/30 rounded p-3'>
+                                <p className='text-xs font-medium text-card-foreground mb-2'>
+                                    Independent Review
+                                </p>
+                                <div className='flex items-center gap-2'>
+                                    <div className='w-6 h-6 bg-accent rounded-full flex items-center justify-center'>
+                                        <span className='text-xs font-medium text-white'>
+                                            {data.eeat.reviewedBy.name.split(' ').map(n => n[0]).join('')}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <p className='text-xs font-medium text-card-foreground'>
+                                            {data.eeat.reviewedBy.name}
+                                        </p>
+                                        <p className='text-xs text-muted-foreground'>
+                                            {data.eeat.reviewedBy.role}
+                                        </p>
+                                    </div>
+                                </div>
+                                <p className='text-xs text-muted-foreground mt-2'>
+                                    {data.eeat.reviewedBy.bioLine}
+                                </p>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Action Links */}
+                    <div className='flex gap-2 pt-2'>
+                        <Button asChild variant="outline" size="sm">
+                            <a href={data.eeat.methodology.methodologyHubUrl} target="_blank" rel="noopener noreferrer">
+                                Full Methodology
+                            </a>
+                        </Button>
+                        <Button asChild variant="outline" size="sm">
+                            <a href={data.eeat.methodology.editorialPolicyUrl} target="_blank" rel="noopener noreferrer">
+                                Editorial Policy
+                            </a>
+                        </Button>
                     </div>
                 </div>
             </div>
+
+            {/* Change Log */}
+            {data.changeLog && data.changeLog.length > 0 && (
+                <div className='bg-card border border-border rounded-lg p-6'>
+                    <h3 className='text-lg font-semibold text-card-foreground mb-4'>
+                        Recent Updates
+                    </h3>
+                    <div className='space-y-3'>
+                        {data.changeLog.slice(0, 3).map((change, index) => (
+                            <div key={index} className='border-l-2 border-primary/20 pl-4 pb-3'>
+                                <div className='flex items-center gap-2 mb-1'>
+                                    <p className='text-sm font-medium text-card-foreground'>
+                                        {change.reason}
+                                    </p>
+                                    <span className='text-xs text-muted-foreground'>
+                                        {formatDate(change.at)}
+                                    </span>
+                                </div>
+                                <p className='text-xs text-muted-foreground'>
+                                    {change.diffSummary}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {/* Sources */}
+            {data.eeat.dataProvenance.sources && data.eeat.dataProvenance.sources.length > 0 && (
+                <div className='bg-card border border-border rounded-lg p-6'>
+                    <h3 className='text-lg font-semibold text-card-foreground mb-4'>
+                        Data Sources
+                    </h3>
+                    <div className='grid grid-cols-1 md:grid-cols-2 gap-3'>
+                        {data.eeat.dataProvenance.sources.slice(0, 6).map((source, index) => (
+                            <div key={index} className='bg-muted/30 rounded p-3'>
+                                <Button asChild variant="ghost" size="sm" className='h-auto p-0 text-xs font-medium text-card-foreground hover:text-primary'>
+                                    <a href={source.url} target="_blank" rel="noopener noreferrer">
+                                        {source.label} →
+                                    </a>
+                                </Button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
