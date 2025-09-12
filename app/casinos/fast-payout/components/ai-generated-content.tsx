@@ -1,6 +1,6 @@
 'use client';
 
-import { Clock, Star, TrendingUp, Shield, Gamepad2, Zap, ExternalLink, Award, ChevronDown, ChevronUp } from 'lucide-react';
+import { Clock, Star, TrendingUp, Shield, Gamepad2, Zap } from 'lucide-react';
 import {
     Card,
     CardContent,
@@ -9,18 +9,9 @@ import {
 } from '../../../../components/ui/card';
 import { Badge } from '../../../../components/ui/badge';
 import { Button } from '../../../../components/ui/button';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../../../../components/ui/collapsible';
+
 import type { CriteriaSnapshot } from '../../../../types/criteria-content-schemas-full';
 import type { Casino } from '../../../../data/casinos';
-
-// Utility function to format dates
-const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    });
-};
 
 interface AIGeneratedContentProps {
     data: CriteriaSnapshot;
@@ -240,18 +231,39 @@ export function AIGeneratedContent({
                                                     <div className='grid grid-cols-2 gap-2'>
                                                         <div>
                                                             <p className='text-xs text-muted-foreground'>
-                                                                Score: {item.trustMetrics.trustScore}/100
+                                                                Score:{' '}
+                                                                {
+                                                                    item
+                                                                        .trustMetrics
+                                                                        .trustScore
+                                                                }
+                                                                /100
                                                             </p>
                                                             <p className='text-xs text-muted-foreground'>
-                                                                Rating: {item.trustMetrics.trustRating}/5 ⭐
+                                                                Rating:{' '}
+                                                                {
+                                                                    item
+                                                                        .trustMetrics
+                                                                        .trustRating
+                                                                }
+                                                                /5 ⭐
                                                             </p>
                                                         </div>
                                                         <div>
                                                             <p className='text-xs text-muted-foreground'>
-                                                                Est: {new Date(item.trustMetrics.established).getFullYear()}
+                                                                Est:{' '}
+                                                                {new Date(
+                                                                    item.trustMetrics.established
+                                                                ).getFullYear()}
                                                             </p>
                                                             <p className='text-xs text-muted-foreground'>
-                                                                Complaints: {item.trustMetrics.complaintRate}%
+                                                                Complaints:{' '}
+                                                                {
+                                                                    item
+                                                                        .trustMetrics
+                                                                        .complaintRate
+                                                                }
+                                                                %
                                                             </p>
                                                         </div>
                                                     </div>
@@ -274,9 +286,13 @@ export function AIGeneratedContent({
                                                                 .licenseId
                                                         }
                                                     </p>
-                                                    {item.licensing.issuedDate && (
+                                                    {item.licensing
+                                                        .issuedDate && (
                                                         <p className='text-xs text-muted-foreground'>
-                                                            Issued: {new Date(item.licensing.issuedDate).toLocaleDateString()}
+                                                            Issued:{' '}
+                                                            {new Date(
+                                                                item.licensing.issuedDate
+                                                            ).toLocaleDateString()}
                                                         </p>
                                                     )}
                                                     {item.licensing
@@ -309,14 +325,24 @@ export function AIGeneratedContent({
                                                         }{' '}
                                                         RTP
                                                     </p>
-                                                    {item.securityFeatures.ownership && (
+                                                    {item.securityFeatures
+                                                        .ownership && (
                                                         <p className='text-xs text-muted-foreground mt-1'>
-                                                            Owner: {item.securityFeatures.ownership}
+                                                            Owner:{' '}
+                                                            {
+                                                                item
+                                                                    .securityFeatures
+                                                                    .ownership
+                                                            }
                                                         </p>
                                                     )}
-                                                    {item.securityFeatures.rgTools.length > 0 && (
+                                                    {item.securityFeatures
+                                                        .rgTools.length > 0 && (
                                                         <p className='text-xs text-muted-foreground mt-1'>
-                                                            RG Tools: {item.securityFeatures.rgTools.slice(0, 2).join(', ')}
+                                                            RG Tools:{' '}
+                                                            {item.securityFeatures.rgTools
+                                                                .slice(0, 2)
+                                                                .join(', ')}
                                                         </p>
                                                     )}
                                                 </div>
@@ -379,13 +405,17 @@ export function AIGeneratedContent({
                                                             ` + ${item.bonusValue.spins} spins`}
                                                     </p>
                                                     {/* Bonus Code */}
-                                                    {'bonusCode' in item && item.bonusCode && (
-                                                        <div className='mt-2 p-1 bg-accent/10 rounded border border-accent/20'>
-                                                            <p className='text-xs font-medium text-accent'>
-                                                                Code: {item.bonusCode}
-                                                            </p>
-                                                        </div>
-                                                    )}
+                                                    {'bonusCode' in item &&
+                                                        item.bonusCode && (
+                                                            <div className='mt-2 p-1 bg-accent/10 rounded border border-accent/20'>
+                                                                <p className='text-xs font-medium text-accent'>
+                                                                    Code:{' '}
+                                                                    {
+                                                                        item.bonusCode
+                                                                    }
+                                                                </p>
+                                                            </div>
+                                                        )}
                                                 </div>
                                             )}
 
@@ -496,8 +526,16 @@ export function AIGeneratedContent({
                                                     </p>
                                                     {/* Withdrawal Limits */}
                                                     <p className='text-xs text-muted-foreground'>
-                                                        Min: {item.paymentMethods.minWithdrawal} • 
-                                                        Max/day: {item.paymentMethods.maxWithdrawalPerDay}
+                                                        Min:{' '}
+                                                        {
+                                                            item.paymentMethods
+                                                                .minWithdrawal
+                                                        }{' '}
+                                                        • Max/day:{' '}
+                                                        {
+                                                            item.paymentMethods
+                                                                .maxWithdrawalPerDay
+                                                        }
                                                     </p>
                                                 </div>
                                             )}
@@ -509,8 +547,10 @@ export function AIGeneratedContent({
                                                         Fees:
                                                     </p>
                                                     <p className='text-xs text-muted-foreground'>
-                                                        Deposits: {item.fees.deposits} • 
-                                                        Withdrawals: {item.fees.withdrawals}
+                                                        Deposits:{' '}
+                                                        {item.fees.deposits} •
+                                                        Withdrawals:{' '}
+                                                        {item.fees.withdrawals}
                                                     </p>
                                                 </div>
                                             )}
@@ -580,9 +620,15 @@ export function AIGeneratedContent({
                                                                     .recentUpdates[0]
                                                             }
                                                         </p>
-                                                        {item.momentum.quarterlyGrowth && (
+                                                        {item.momentum
+                                                            .quarterlyGrowth && (
                                                             <p className='text-xs text-muted-foreground mt-1 font-medium text-accent'>
-                                                                📈 {item.momentum.quarterlyGrowth}
+                                                                📈{' '}
+                                                                {
+                                                                    item
+                                                                        .momentum
+                                                                        .quarterlyGrowth
+                                                                }
                                                             </p>
                                                         )}
                                                     </div>
@@ -664,19 +710,28 @@ export function AIGeneratedContent({
                                                         Quality Features:
                                                     </p>
                                                     <div className='space-y-1'>
-                                                        {item.gameQuality.topTitles.length > 0 && (
+                                                        {item.gameQuality
+                                                            .topTitles.length >
+                                                            0 && (
                                                             <p className='text-xs text-muted-foreground'>
-                                                                Featured: {item.gameQuality.topTitles.slice(0, 2).join(', ')}
+                                                                Featured:{' '}
+                                                                {item.gameQuality.topTitles
+                                                                    .slice(0, 2)
+                                                                    .join(', ')}
                                                             </p>
                                                         )}
-                                                        {item.gameQuality.hasJackpots && (
+                                                        {item.gameQuality
+                                                            .hasJackpots && (
                                                             <p className='text-xs text-muted-foreground'>
-                                                                🎰 Progressive Jackpots
+                                                                🎰 Progressive
+                                                                Jackpots
                                                             </p>
                                                         )}
-                                                        {item.gameQuality.hasTournaments && (
+                                                        {item.gameQuality
+                                                            .hasTournaments && (
                                                             <p className='text-xs text-muted-foreground'>
-                                                                🏆 Tournaments Available
+                                                                🏆 Tournaments
+                                                                Available
                                                             </p>
                                                         )}
                                                     </div>
@@ -778,9 +833,18 @@ export function AIGeneratedContent({
                                                         Withdrawal Limits:
                                                     </p>
                                                     <p className='text-xs text-muted-foreground'>
-                                                        Min: {item.limits.minWithdrawal} • 
-                                                        Daily: {item.limits.maxDailyWithdrawal}
-                                                        {item.limits.monthlyLimit && 
+                                                        Min:{' '}
+                                                        {
+                                                            item.limits
+                                                                .minWithdrawal
+                                                        }{' '}
+                                                        • Daily:{' '}
+                                                        {
+                                                            item.limits
+                                                                .maxDailyWithdrawal
+                                                        }
+                                                        {item.limits
+                                                            .monthlyLimit &&
                                                             ` • Monthly: ${item.limits.monthlyLimit}`}
                                                     </p>
                                                 </div>
@@ -849,11 +913,17 @@ export function AIGeneratedContent({
                                 {data.authoring.author.name}
                             </p>
                             <div className='flex gap-1'>
-                                {data.authoring.author.credentials.slice(0, 2).map((credential, index) => (
-                                    <Badge key={index} variant="outline" className='text-xs'>
-                                        {credential}
-                                    </Badge>
-                                ))}
+                                {data.authoring.author.credentials
+                                    .slice(0, 2)
+                                    .map((credential, index) => (
+                                        <Badge
+                                            key={index}
+                                            variant='outline'
+                                            className='text-xs'
+                                        >
+                                            {credential}
+                                        </Badge>
+                                    ))}
                             </div>
                         </div>
                         <p className='text-sm text-muted-foreground'>
@@ -862,8 +932,17 @@ export function AIGeneratedContent({
                         <p className='text-xs text-muted-foreground mt-1'>
                             {data.authoring.author.bioLine}
                         </p>
-                        <Button asChild variant="ghost" size="sm" className='mt-2 h-auto p-0 text-xs text-primary hover:text-primary/80'>
-                            <a href={data.authoring.author.profileUrl} target="_blank" rel="noopener noreferrer">
+                        <Button
+                            asChild
+                            variant='ghost'
+                            size='sm'
+                            className='mt-2 h-auto p-0 text-xs text-primary hover:text-primary/80'
+                        >
+                            <a
+                                href={data.authoring.author.profileUrl}
+                                target='_blank'
+                                rel='noopener noreferrer'
+                            >
                                 View Profile →
                             </a>
                         </Button>
@@ -890,8 +969,17 @@ export function AIGeneratedContent({
                             <p className='text-sm font-medium text-card-foreground'>
                                 Published by {data.authoring.organization.name}
                             </p>
-                            <Button asChild variant="ghost" size="sm" className='h-auto p-0 text-xs text-muted-foreground hover:text-foreground'>
-                                <a href={data.authoring.organization.url} target="_blank" rel="noopener noreferrer">
+                            <Button
+                                asChild
+                                variant='ghost'
+                                size='sm'
+                                className='h-auto p-0 text-xs text-muted-foreground hover:text-foreground'
+                            >
+                                <a
+                                    href={data.authoring.organization.url}
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                >
                                     Visit Website →
                                 </a>
                             </Button>
@@ -900,20 +988,29 @@ export function AIGeneratedContent({
                 </div>
 
                 {/* Co-authors if any */}
-                {data.authoring.coAuthors && data.authoring.coAuthors.length > 0 && (
-                    <div className='border-t border-border pt-4 mt-4'>
-                        <p className='text-xs font-medium text-card-foreground mb-2'>Co-authors:</p>
-                        <div className='flex flex-wrap gap-2'>
-                            {data.authoring.coAuthors.map((coAuthor, index) => (
-                                <div key={index} className='flex items-center gap-2 bg-muted/50 rounded px-2 py-1'>
-                                    <span className='text-xs text-muted-foreground'>
-                                        {coAuthor.name} • {coAuthor.role}
-                                    </span>
-                                </div>
-                            ))}
+                {data.authoring.coAuthors &&
+                    data.authoring.coAuthors.length > 0 && (
+                        <div className='border-t border-border pt-4 mt-4'>
+                            <p className='text-xs font-medium text-card-foreground mb-2'>
+                                Co-authors:
+                            </p>
+                            <div className='flex flex-wrap gap-2'>
+                                {data.authoring.coAuthors.map(
+                                    (coAuthor, index) => (
+                                        <div
+                                            key={index}
+                                            className='flex items-center gap-2 bg-muted/50 rounded px-2 py-1'
+                                        >
+                                            <span className='text-xs text-muted-foreground'>
+                                                {coAuthor.name} •{' '}
+                                                {coAuthor.role}
+                                            </span>
+                                        </div>
+                                    )
+                                )}
+                            </div>
                         </div>
-                    </div>
-                )}
+                    )}
             </div>
 
             {/* E-E-A-T Metadata */}
@@ -933,7 +1030,10 @@ export function AIGeneratedContent({
                                 v{data.eeat.methodology.methodologyVersion}
                             </p>
                             <p className='text-xs text-muted-foreground mt-1'>
-                                Updated: {formatDate(data.eeat.methodology.methodologyUpdatedAt)}
+                                Updated:{' '}
+                                {formatDate(
+                                    data.eeat.methodology.methodologyUpdatedAt
+                                )}
                             </p>
                         </div>
 
@@ -945,32 +1045,49 @@ export function AIGeneratedContent({
                                 {data.eeat.dataProvenance.coveragePeriod}
                             </p>
                             <p className='text-xs text-muted-foreground mt-1'>
-                                Sample size: {data.eeat.dataProvenance.sampleSize.toLocaleString()} observations
+                                Sample size:{' '}
+                                {data.eeat.dataProvenance.sampleSize.toLocaleString()}{' '}
+                                observations
                             </p>
                             <p className='text-xs text-muted-foreground mt-1'>
-                                Data cutoff: {new Date(data.eeat.dataProvenance.dataCutoffDate).toLocaleDateString()}
+                                Data cutoff:{' '}
+                                {new Date(
+                                    data.eeat.dataProvenance.dataCutoffDate
+                                ).toLocaleDateString()}
                             </p>
                         </div>
                     </div>
 
                     {/* Trust Signals */}
                     <div className='space-y-3'>
-                        <p className='text-sm font-medium text-card-foreground'>Trust Signals</p>
+                        <p className='text-sm font-medium text-card-foreground'>
+                            Trust Signals
+                        </p>
                         <div className='flex flex-wrap gap-2'>
-                            {data.eeat.trustSignals.auditBadges.map((badge, index) => (
-                                <Badge key={index} className='bg-green-100 text-green-800 border-green-200'>
-                                    <Shield className='w-3 h-3 mr-1' />
-                                    {badge}
-                                </Badge>
-                            ))}
+                            {data.eeat.trustSignals.auditBadges.map(
+                                (badge, index) => (
+                                    <Badge
+                                        key={index}
+                                        className='bg-green-100 text-green-800 border-green-200'
+                                    >
+                                        <Shield className='w-3 h-3 mr-1' />
+                                        {badge}
+                                    </Badge>
+                                )
+                            )}
                             {data.eeat.trustSignals.adrProvider && (
                                 <Badge className='bg-blue-100 text-blue-800 border-blue-200'>
-                                    Dispute Resolution: {data.eeat.trustSignals.adrProvider}
+                                    Dispute Resolution:{' '}
+                                    {data.eeat.trustSignals.adrProvider}
                                 </Badge>
                             )}
                             {data.eeat.trustSignals.complaintsWindowDays && (
-                                <Badge variant="outline" className='text-xs'>
-                                    {data.eeat.trustSignals.complaintsWindowDays}-day complaint tracking
+                                <Badge variant='outline' className='text-xs'>
+                                    {
+                                        data.eeat.trustSignals
+                                            .complaintsWindowDays
+                                    }
+                                    -day complaint tracking
                                 </Badge>
                             )}
                         </div>
@@ -978,29 +1095,48 @@ export function AIGeneratedContent({
 
                     {/* Source Types */}
                     <div className='space-y-3'>
-                        <p className='text-sm font-medium text-card-foreground'>Data Sources</p>
+                        <p className='text-sm font-medium text-card-foreground'>
+                            Data Sources
+                        </p>
                         <div className='flex flex-wrap gap-2'>
-                            {data.eeat.dataProvenance.sourceTypes.map((sourceType, index) => (
-                                <Badge key={index} variant="outline" className='text-xs'>
-                                    {sourceType.replace('_', ' ').toUpperCase()}
-                                </Badge>
-                            ))}
+                            {data.eeat.dataProvenance.sourceTypes.map(
+                                (sourceType, index) => (
+                                    <Badge
+                                        key={index}
+                                        variant='outline'
+                                        className='text-xs'
+                                    >
+                                        {sourceType
+                                            .replace('_', ' ')
+                                            .toUpperCase()}
+                                    </Badge>
+                                )
+                            )}
                         </div>
                     </div>
 
                     {/* Jurisdiction Focus */}
                     <div className='space-y-3'>
-                        <p className='text-sm font-medium text-card-foreground'>Geographic Focus</p>
+                        <p className='text-sm font-medium text-card-foreground'>
+                            Geographic Focus
+                        </p>
                         <div className='flex flex-wrap gap-2'>
-                            {data.eeat.jurisdictionFocus.map((country, index) => (
-                                <Badge key={index} variant="outline" className='text-xs'>
-                                    {country}
-                                </Badge>
-                            ))}
+                            {data.eeat.jurisdictionFocus.map(
+                                (country, index) => (
+                                    <Badge
+                                        key={index}
+                                        variant='outline'
+                                        className='text-xs'
+                                    >
+                                        {country}
+                                    </Badge>
+                                )
+                            )}
                         </div>
                         {data.eeat.locale && data.eeat.locale !== 'en' && (
                             <p className='text-xs text-muted-foreground'>
-                                Content localized for: {data.eeat.locale.toUpperCase()}
+                                Content localized for:{' '}
+                                {data.eeat.locale.toUpperCase()}
                             </p>
                         )}
                     </div>
@@ -1017,14 +1153,19 @@ export function AIGeneratedContent({
 
                     {/* Review Process */}
                     <div className='space-y-3'>
-                        <p className='text-sm font-medium text-card-foreground'>Editorial Process</p>
+                        <p className='text-sm font-medium text-card-foreground'>
+                            Editorial Process
+                        </p>
                         <div className='bg-muted/30 rounded p-3'>
                             <p className='text-xs text-muted-foreground'>
                                 {data.eeat.reviewProcess.processSummary}
                             </p>
                             {data.eeat.reviewProcess.reviewedAt && (
                                 <p className='text-xs text-muted-foreground mt-2'>
-                                    Last reviewed: {formatDate(data.eeat.reviewProcess.reviewedAt)}
+                                    Last reviewed:{' '}
+                                    {formatDate(
+                                        data.eeat.reviewProcess.reviewedAt
+                                    )}
                                 </p>
                             )}
                         </div>
@@ -1038,7 +1179,10 @@ export function AIGeneratedContent({
                                 <div className='flex items-center gap-2'>
                                     <div className='w-6 h-6 bg-accent rounded-full flex items-center justify-center'>
                                         <span className='text-xs font-medium text-white'>
-                                            {data.eeat.reviewedBy.name.split(' ').map(n => n[0]).join('')}
+                                            {data.eeat.reviewedBy.name
+                                                .split(' ')
+                                                .map((n) => n[0])
+                                                .join('')}
                                         </span>
                                     </div>
                                     <div>
@@ -1059,13 +1203,21 @@ export function AIGeneratedContent({
 
                     {/* Action Links */}
                     <div className='flex gap-2 pt-2'>
-                        <Button asChild variant="outline" size="sm">
-                            <a href={data.eeat.methodology.methodologyHubUrl} target="_blank" rel="noopener noreferrer">
+                        <Button asChild variant='outline' size='sm'>
+                            <a
+                                href={data.eeat.methodology.methodologyHubUrl}
+                                target='_blank'
+                                rel='noopener noreferrer'
+                            >
                                 Full Methodology
                             </a>
                         </Button>
-                        <Button asChild variant="outline" size="sm">
-                            <a href={data.eeat.methodology.editorialPolicyUrl} target="_blank" rel="noopener noreferrer">
+                        <Button asChild variant='outline' size='sm'>
+                            <a
+                                href={data.eeat.methodology.editorialPolicyUrl}
+                                target='_blank'
+                                rel='noopener noreferrer'
+                            >
                                 Editorial Policy
                             </a>
                         </Button>
@@ -1081,7 +1233,10 @@ export function AIGeneratedContent({
                     </h3>
                     <div className='space-y-3'>
                         {data.changeLog.slice(0, 3).map((change, index) => (
-                            <div key={index} className='border-l-2 border-primary/20 pl-4 pb-3'>
+                            <div
+                                key={index}
+                                className='border-l-2 border-primary/20 pl-4 pb-3'
+                            >
                                 <div className='flex items-center gap-2 mb-1'>
                                     <p className='text-sm font-medium text-card-foreground'>
                                         {change.reason}
@@ -1100,24 +1255,39 @@ export function AIGeneratedContent({
             )}
 
             {/* Sources */}
-            {data.eeat.dataProvenance.sources && data.eeat.dataProvenance.sources.length > 0 && (
-                <div className='bg-card border border-border rounded-lg p-6'>
-                    <h3 className='text-lg font-semibold text-card-foreground mb-4'>
-                        Data Sources
-                    </h3>
-                    <div className='grid grid-cols-1 md:grid-cols-2 gap-3'>
-                        {data.eeat.dataProvenance.sources.slice(0, 6).map((source, index) => (
-                            <div key={index} className='bg-muted/30 rounded p-3'>
-                                <Button asChild variant="ghost" size="sm" className='h-auto p-0 text-xs font-medium text-card-foreground hover:text-primary'>
-                                    <a href={source.url} target="_blank" rel="noopener noreferrer">
-                                        {source.label} →
-                                    </a>
-                                </Button>
-                            </div>
-                        ))}
+            {data.eeat.dataProvenance.sources &&
+                data.eeat.dataProvenance.sources.length > 0 && (
+                    <div className='bg-card border border-border rounded-lg p-6'>
+                        <h3 className='text-lg font-semibold text-card-foreground mb-4'>
+                            Data Sources
+                        </h3>
+                        <div className='grid grid-cols-1 md:grid-cols-2 gap-3'>
+                            {data.eeat.dataProvenance.sources
+                                .slice(0, 6)
+                                .map((source, index) => (
+                                    <div
+                                        key={index}
+                                        className='bg-muted/30 rounded p-3'
+                                    >
+                                        <Button
+                                            asChild
+                                            variant='ghost'
+                                            size='sm'
+                                            className='h-auto p-0 text-xs font-medium text-card-foreground hover:text-primary'
+                                        >
+                                            <a
+                                                href={source.url}
+                                                target='_blank'
+                                                rel='noopener noreferrer'
+                                            >
+                                                {source.label} →
+                                            </a>
+                                        </Button>
+                                    </div>
+                                ))}
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
         </div>
     );
 }
